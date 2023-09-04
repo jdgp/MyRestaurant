@@ -45,10 +45,10 @@ namespace Sales.Frontend.Repositories
             if (responseHttp.IsSuccessStatusCode)
             {
                 var response = await UnserializaAnswerAsync<TResponse>(responseHttp);
-                return new HttpResponseWrapper<TResponse(response, false, responseHttp);
+                return new HttpResponseWrapper<TResponse>(response, false, responseHttp);
 
             }
-            return new HttpResponseWrapper<TResponse(default, true, responseHttp);
+            return new HttpResponseWrapper<TResponse>(default, true, responseHttp);
         }
         private async Task<T> UnserializaAnswerAsync<T>(HttpResponseMessage responseHttp)
         {
