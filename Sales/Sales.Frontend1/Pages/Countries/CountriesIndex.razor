@@ -2,21 +2,22 @@
 @inject IRepository repository
 <h4>Paises</h4>
 
-@if (countries is null)
-{
-    <p>Cargando...</p>
-}
-else
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Pais</th>
-                <th></th>
-            </tr>
-        </thead>
+<GenericList MyList="countries" >
+    <NoRecord> 
+        <p>Aun no hay paises registrados.</p>
+    </NoRecord>
+    <Body>
+        <a href="/countries/create" class="btn btn-primary">Nuevo País</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Pais</th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody>
-                @foreach(var country in countries)
+                @foreach (var country in countries!)
                 {
                     <tr>
                         <td>@country.Name</td>
@@ -24,10 +25,13 @@ else
                     </tr>
                 }
             </tbody>
-    </table>
-}
+        </table>
+
+    </Body>
+    </GenericList>
+
 @code {
-    private List<Country>? countries;
+    private List<Country>?  countries;
 
     protected override async Task OnInitializedAsync()
     {
