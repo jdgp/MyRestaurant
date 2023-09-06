@@ -1,5 +1,6 @@
 ﻿@page "/countries"
 @inject IRepository repository
+@inject SweetAlertService sweetAlertService
 <h4>Paises</h4>
 
 <GenericList MyList="countries" >
@@ -21,7 +22,10 @@
                 {
                     <tr>
                         <td>@country.Name</td>
-                        <td></td>
+                        <td>
+                            <a class="btn btn-warning btn-sm" href="/countries/CountryEdit/@country.Id">Editar</a>
+                            <button class="btn btn-danger btn-sm" >Borrar</button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -38,8 +42,9 @@
         var response = await repository.GetAsync<List<Country>>("api/countries");
         if (response.Error)
         {
-            //TODO: pending to implement
-            return;
+            var message = await response.GetErrorMessageAsync();
+            await sweetAlertService.FireAsync("Error", message, SweetAlertIcon.Error);
+            return; return;
         }
         countries = response.Response;
 
