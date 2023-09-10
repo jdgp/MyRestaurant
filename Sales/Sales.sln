@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.Shared", "Sales.Share
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.Backend", "Sales.Backend\Sales.Backend.csproj", "{0C2353AA-4B95-46B1-AE61-3FCCE733C8B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Frontend1", "Sales.Frontend1\Sales.Frontend1.csproj", "{70E71F98-34B1-43A1-A8D3-CB5A7C1A8216}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sales.Frontend1", "Sales.Frontend1\Sales.Frontend1.csproj", "{70E71F98-34B1-43A1-A8D3-CB5A7C1A8216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
