@@ -1,8 +1,8 @@
+using CurrieTechnologies.Razor.SweetAlert2;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Sales.Frontend1;
 using Sales.Frontend.Repositories;
-using CurrieTechnologies.Razor.SweetAlert2;
+using Sales.Frontend1;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");

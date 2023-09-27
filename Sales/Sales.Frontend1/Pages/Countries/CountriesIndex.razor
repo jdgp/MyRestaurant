@@ -3,8 +3,8 @@
 @inject SweetAlertService sweetAlertService
 <h4>Paises</h4>
 
-<GenericList MyList="countries" >
-    <NoRecord> 
+<GenericList MyList="countries">
+    <NoRecord>
         <p>Aun no hay paises registrados.</p>
     </NoRecord>
     <Body>
@@ -32,13 +32,11 @@
                 }
             </tbody>
         </table>
-
     </Body>
     </GenericList>
 
 @code {
     private List<Country>?  countries;
-
 
     protected override async Task OnInitializedAsync()
     {

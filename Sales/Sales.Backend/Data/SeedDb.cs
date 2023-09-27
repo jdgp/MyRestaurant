@@ -9,6 +9,7 @@ namespace Sales.Backend.Data
     {
         private readonly DataContext _context;
         private readonly IApiService _apiService;
+
         public SeedDb(DataContext context, IApiService apiService)
         {
             _context = context;
@@ -21,6 +22,7 @@ namespace Sales.Backend.Data
             await CheckCountriesAsync();
             await CheckCategoriesAsync();
         }
+
         private async Task CheckCategoriesAsync()
         {
             if (!_context.Categories.Any())
@@ -39,60 +41,59 @@ namespace Sales.Backend.Data
         {
             if (!_context.Countries.Any())
             {
-            var responseCountries = await _apiService.GetAsync<List<CountryResponse>>("/v1", "/countries");
-            if (responseCountries.WasSuccess)
-            {
-                var countries = responseCountries.Result!;
-                foreach (var countryResponse in countries)
+                var responseCountries = await _apiService.GetAsync<List<CountryResponse>>("/v1", "/countries");
+                if (responseCountries.WasSuccess)
                 {
-                    var country = await _context.Countries.FirstOrDefaultAsync(c => c.Name == countryResponse.Name!)!;
-                    if (country == null)
+                    var countries = responseCountries.Result!;
+                    foreach (var countryResponse in countries)
                     {
-                        country = new() { Name = countryResponse.Name!, States = new List<State>() };
-                        var responseStates = await _apiService.GetAsync<List<StateResponse>>("/v1", $"/countries/{countryResponse.Iso2}/states");
-                        if (responseStates.WasSuccess)
+                        var country = await _context.Countries.FirstOrDefaultAsync(c => c.Name == countryResponse.Name!)!;
+                        if (country == null)
                         {
-                            var states = responseStates.Result!;
-                            foreach (var stateResponse in states!)
+                            country = new() { Name = countryResponse.Name!, States = new List<State>() };
+                            var responseStates = await _apiService.GetAsync<List<StateResponse>>("/v1", $"/countries/{countryResponse.Iso2}/states");
+                            if (responseStates.WasSuccess)
                             {
-                                var state = country.States!.FirstOrDefault(s => s.Name == stateResponse.Name!)!;
-                                if (state == null)
+                                var states = responseStates.Result!;
+                                foreach (var stateResponse in states!)
                                 {
-                                    state = new() { Name = stateResponse.Name!, Cities = new List<City>() };
-                                    var responseCities = await _apiService.GetAsync<List<CityResponse>>("/v1", $"/countries/{countryResponse.Iso2}/states/{stateResponse.Iso2}/cities");
-                                    if (responseCities.WasSuccess)
+                                    var state = country.States!.FirstOrDefault(s => s.Name == stateResponse.Name!)!;
+                                    if (state == null)
                                     {
-                                        var cities = responseCities.Result!;
-                                        foreach (var cityResponse in cities)
+                                        state = new() { Name = stateResponse.Name!, Cities = new List<City>() };
+                                        var responseCities = await _apiService.GetAsync<List<CityResponse>>("/v1", $"/countries/{countryResponse.Iso2}/states/{stateResponse.Iso2}/cities");
+                                        if (responseCities.WasSuccess)
                                         {
-                                            if (cityResponse.Name == "Mosfellsbær" || cityResponse.Name == "Șăulița")
+                                            var cities = responseCities.Result!;
+                                            foreach (var cityResponse in cities)
                                             {
-                                                continue;
-                                            }
-                                            var city = state.Cities!.FirstOrDefault(c => c.Name == cityResponse.Name!)!;
-                                            if (city == null)
-                                            {
-                                                state.Cities.Add(new City() { Name = cityResponse.Name! });
+                                                if (cityResponse.Name == "Mosfellsbær" || cityResponse.Name == "Șăulița")
+                                                {
+                                                    continue;
+                                                }
+                                                var city = state.Cities!.FirstOrDefault(c => c.Name == cityResponse.Name!)!;
+                                                if (city == null)
+                                                {
+                                                    state.Cities.Add(new City() { Name = cityResponse.Name! });
+                                                }
                                             }
                                         }
-                                    }
-                                    if (state.CitiesNumber > 0)
-                                    {
-                                        country.States.Add(state);
+                                        if (state.CitiesNumber > 0)
+                                        {
+                                            country.States.Add(state);
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (country.StatesNumber > 0)
-                        {
-                            _context.Countries.Add(country);
-                            await _context.SaveChangesAsync();
-                            
+                            if (country.StatesNumber > 0)
+                            {
+                                _context.Countries.Add(country);
+                                await _context.SaveChangesAsync();
+                            }
                         }
                     }
                 }
             }
-          }
         }
     }
 }

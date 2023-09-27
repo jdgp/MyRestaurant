@@ -4,11 +4,8 @@ using Sales.Backend.Interfaces;
 using Sales.Backend.Repositories;
 using Sales.Backend.Services;
 using Sales.Backend.UnitsOfWork;
-using System.Threading.Tasks.Dataflow;
-using Sales.Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services
     .AddControllers()

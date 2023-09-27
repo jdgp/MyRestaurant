@@ -22,5 +22,4 @@ namespace Sales.Backend.UnitsOfWork
 
         public async Task<Response<T>> UpdateAsync(T model) => await _repository.UpdateAsync(model);
     }
-
 }

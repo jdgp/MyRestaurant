@@ -46,4 +46,3 @@ namespace Sales.Frontend.Repositories
         }
     }
 }
-

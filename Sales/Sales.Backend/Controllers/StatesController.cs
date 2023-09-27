@@ -8,8 +8,8 @@ namespace Sales.Backend.Controllers
 {
     public class StatesController : GenericController<State>
     {
-
         private readonly DataContext _context;
+
         public StatesController(IGenericUnitOfWork<State> unitOfWork, DataContext context) : base(unitOfWork)
         {
             _context = context;

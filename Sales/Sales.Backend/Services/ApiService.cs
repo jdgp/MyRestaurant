@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using Sales.Shared.Responses;
+﻿using Sales.Shared.Responses;
+using System.Text.Json;
 
 namespace Sales.Backend.Services
 {
@@ -20,7 +20,6 @@ namespace Sales.Backend.Services
         {
             PropertyNameCaseInsensitive = true,
         };
-
 
         public async Task<Response<T>> GetAsync<T>(string servicePrefix, string controller)
         {
