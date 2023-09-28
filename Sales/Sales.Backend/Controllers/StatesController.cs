@@ -1,27 +1,50 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sales.Backend.Data;
+using Sales.Backend.Helpers;
 using Sales.Backend.Interfaces;
+using Sales.Shared.DTOs;
 using Sales.Shared.Entities;
 
 namespace Sales.Backend.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class StatesController : GenericController<State>
     {
         private readonly DataContext _context;
 
-        public StatesController(IGenericUnitOfWork<State> unitOfWork, DataContext context) : base(unitOfWork)
+        public StatesController(IGenericUnitOfWork<State> unitOfWork, DataContext context) : base(unitOfWork, context)
         {
             _context = context;
         }
 
         [HttpGet]
-        public override async Task<IActionResult> GetAsync()
+        public override async Task<IActionResult> GetAsync([FromQuery] PaginationDTO pagination)
         {
-            return Ok(await _context.States
-                .Include(s => s.Cities)
+            var queryable = _context.States
+                .Include(x => x.Cities)
+                .Where(x => x.Country!.Id == pagination.Id)
+                .AsQueryable();
+
+            return Ok(await queryable
+                .OrderBy(x => x.Name)
+                .Paginate(pagination)
                 .ToListAsync());
         }
+
+        [HttpGet("totalPages")]
+        public override async Task<ActionResult> GetPagesAsync([FromQuery] PaginationDTO pagination)
+        {
+            var queryable = _context.States
+                .Where(x => x.Country!.Id == pagination.Id)
+                .AsQueryable();
+
+            double count = await queryable.CountAsync();
+            double totalPages = Math.Ceiling(count / pagination.RecordsNumber);
+            return Ok(totalPages);
+        }
+
 
         [HttpGet("{id}")]
         public override async Task<IActionResult> GetAsync(int id)
