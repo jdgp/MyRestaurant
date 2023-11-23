@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Sales.Backend.Data;
-using Sales.Backend.Interfaces;
-using Sales.Shared.Responses;
+using Sales.Backend.Domain.Responses;
+using Sales.Backend.Infrastructure.Data;
 
-namespace Sales.Backend.Repositories
+namespace Sales.Backend.Domain.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {

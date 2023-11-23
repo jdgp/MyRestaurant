@@ -5,7 +5,7 @@
 namespace Sales.Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class addCategoryEntity : Migration
+    public partial class CreateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,11 +23,21 @@ namespace Sales.Backend.Migrations
                     table.PrimaryKey("PK_Categories", x => x.Id);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Categories_Name",
-                table: "Categories",
-                column: "Name",
-                unique: true);
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Stock = table.Column<float>(type: "real", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -35,6 +45,9 @@ namespace Sales.Backend.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Product");
         }
     }
 }

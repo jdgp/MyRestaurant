@@ -1,7 +1,7 @@
-﻿using Sales.Backend.Interfaces;
-using Sales.Shared.Responses;
+﻿using Sales.Backend.Domain.Repositories;
+using Sales.Backend.Domain.Responses;
 
-namespace Sales.Backend.UnitsOfWork
+namespace Sales.Backend.Application.UseCase.UnitsOfWork
 {
     public class GenericUnitOfWork<T> : IGenericUnitOfWork<T> where T : class
     {

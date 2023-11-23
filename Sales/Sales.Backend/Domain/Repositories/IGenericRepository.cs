@@ -1,6 +1,6 @@
-﻿using Sales.Shared.Responses;
+﻿using Sales.Backend.Domain.Responses;
 
-namespace Sales.Backend.Interfaces
+namespace Sales.Backend.Domain.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {

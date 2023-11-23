@@ -1,6 +1,6 @@
-﻿using Sales.Shared.Responses;
+﻿using Sales.Backend.Domain.Responses;
 
-namespace Sales.Backend.Interfaces
+namespace Sales.Backend.Application.UseCase.UnitsOfWork
 {
     public interface IGenericUnitOfWork<T> where T : class
     {
